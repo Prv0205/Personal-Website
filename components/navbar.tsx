@@ -4,15 +4,28 @@ import { useState, useEffect } from "react"
 import { Search, Bell, User, Menu, X, Home } from "lucide-react"
 import Link from "next/link"
 
-export function Navbar() {
+// 1. ADDED: This interface tells TypeScript the Navbar can accept this prop safely
+interface NavbarProps {
+  onNavigateHome?: () => void
+}
+
+// 2. UPDATED: Destructure onNavigateHome here so TypeScript stops complaining
+export function Navbar({ onNavigateHome }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-// Helper to force-close open modals on homepage navigation
+  // Helper to force-close open modals on homepage navigation
   const handleHomeNavigation = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     setMobileMenuOpen(false)
+    
+    // Call the parent file's close handler if it exists
+    if (onNavigateHome) {
+      onNavigateHome()
+    }
+
     window.dispatchEvent(new Event("close-detail-modal"))
-    if (href.startsWith("#")) {
+    
+    if (href && href.startsWith("#")) {
       e.preventDefault()
       const element = document.getElementById(href.replace("#", ""))
       if (element) {
@@ -72,7 +85,6 @@ export function Navbar() {
               <Link 
                 key={link.href}
                 href={link.href} 
-                // onClick={handleHomeNavigation}
                 onClick={(e) => handleHomeNavigation(e, link.href)}
                 className="relative px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors group"
               >
@@ -134,8 +146,7 @@ export function Navbar() {
               key={link.href}
               href={link.href} 
               className="px-4 py-3 text-muted-foreground hover:text-foreground hover:bg-foreground/5 rounded-lg transition-colors"
-              // onClick={handleHomeNavigation}  
-              onClick={(e) => handleHomeNavigation(e, link.href)}
+              onClick={(e) => handleHomeNavigation(e, link.href)}  
             >
               {link.label}
             </Link>

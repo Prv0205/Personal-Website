@@ -22,7 +22,7 @@ export function Footer() {
             <span className="bg-gradient-to-r from-primary via-red-400 to-orange-400 bg-clip-text text-transparent">
               Episode
             </span>
-            ?
+            
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto">
             Looking for exciting opportunities in Software Engineering and AI. Let&apos;s create something amazing together.
@@ -33,7 +33,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="group flex items-center gap-2 mb-4">
-              <span className="text-primary font-black text-2xl tracking-tighter">PP</span>
+              <span className="text-primary font-black text-2xl tracking-tighter">PRV</span>
               <span className="text-foreground font-bold text-xl tracking-tight">PORTFOLIO</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
@@ -89,7 +89,7 @@ export function Footer() {
                   </div>
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <div className="flex items-center gap-3 text-muted-foreground">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                     <Phone className="w-5 h-5 text-primary" />
@@ -99,7 +99,7 @@ export function Footer() {
                     <span className="text-foreground">+353 899682715</span>
                   </div>
                 </div>
-              </li>
+              </li> */}
               <li>
                 <div className="flex items-center gap-3 text-muted-foreground">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -126,7 +126,7 @@ export function Footer() {
           >
             <Linkedin className="w-5 h-5" />
           </a>
-          <a
+          {/* <a
             href="https://github.com/praveenprasannan"
             target="_blank"
             rel="noopener noreferrer"
@@ -134,7 +134,7 @@ export function Footer() {
             aria-label="GitHub"
           >
             <Github className="w-5 h-5" />
-          </a>
+          </a> */}
           <a
             href="mailto:praveenprasannan1995@gmail.com"
             className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center hover:border-primary hover:bg-primary/10 transition-all hover:scale-105"

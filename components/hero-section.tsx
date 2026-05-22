@@ -70,9 +70,9 @@ export function HeroSection() {
         
         {/* Genre tags */}
         <div className="flex flex-wrap gap-2 mb-10">
-          {["Python", "Django", "React", "NLP", "GenAI", "LLMs", "Cloud"].map((skill, i) => (
+          {["Python", "Django", "React", "NLP", "Artificial Intelligence", "GenAI", "LLMs", "Machine Learning", "Cloud"].map((skill, i) => (
             <span key={skill} className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-default">
-              {skill}{i < 6 && <span className="ml-2 text-primary">•</span>}
+              {skill}{i < 8 && <span className="ml-2 text-primary">•</span>}
             </span>
           ))}
         </div>

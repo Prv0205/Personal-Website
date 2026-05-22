@@ -35,7 +35,7 @@ const skillCategories: SkillCategory[] = [
     description: "5+ years of hands-on experience building scalable web applications",
     details: {
       overview: "Expert-level proficiency in Python ecosystem with extensive experience in web development using Django and React. Built production systems serving thousands of users daily.",
-      tools: ["Python 3.x", "Django 4.x", "Django REST Framework", "React.js", "Flask", "FastAPI", "HTML5/CSS3", "JavaScript/TypeScript"],
+      tools: ["Python 3.x", "Django", "Django REST Framework", "React.js", "Flask", "ORM Queries", "FastAPI", "HTML5/CSS3", "JavaScript/TypeScript"],
       experience: "5+ years of professional development experience across multiple companies and projects",
       projects: [
         "Django REST APIs supporting 25K+ daily users at TCS",

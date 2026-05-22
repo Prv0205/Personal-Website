@@ -442,7 +442,7 @@ const experienceData = [
     title: "Research Assistant",
     subtitle: "Data Science Institute, University of Galway",
     description: "Developed a full-stack web application to consolidate research ideas, datasets, and source code. Built backend with Django REST APIs and React.js frontend.",
-    tags: ["Python", "Django", "React", "PostgreSQL", "GCP", "Hugging Face"],
+    tags: ["Python", "Django", "React", "PostgreSQL", "Artificial Intelligence", "Machine Learning", "GCP", "Hugging Face"],
     year: "2025-2026",
     location: "Galway, Ireland",
     duration: "6 months",

@@ -3,6 +3,7 @@
 import { ArrowLeft, X, Plus, ExternalLink, Clock, MapPin, Calendar, Award, BookOpen, Briefcase, Download, Mail } from "lucide-react"
 import Image from "next/image"
 import { useEffect } from "react"
+import { Navbar } from "@/components/navbar"
 
 export interface DetailItem {
   id: string
@@ -97,11 +98,15 @@ export function DetailModal({ item, onClose, variant = "experience" }: DetailMod
 
   return (
     <div 
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-background"
-      onClick={onClose}
-    >
+  className="fixed inset-0 z-[100] flex items-start justify-center bg-background overflow-hidden"
+  onClick={onClose}
+>
+     <div className="fixed top-0 left-0 right-0 z-[120]">
+  <Navbar />
+</div>
+      
       {/* Sticky navigation bar */}
-      <div className="fixed top-0 left-0 right-0 z-[110] flex items-center justify-between px-4 py-3 bg-background border-b border-border/50">
+      {/* <div className="fixed top-0 left-0 right-0 z-[110] flex items-center justify-between px-4 py-3 bg-background border-b border-border/50">
         <button
           onClick={onClose}
           className="flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
@@ -117,12 +122,12 @@ export function DetailModal({ item, onClose, variant = "experience" }: DetailMod
         >
           <X className="w-5 h-5" />
         </button>
-      </div>
+      </div> */}
 
-      <div 
-        className="relative w-full max-w-4xl mt-16 mb-8 mx-4 animate-in fade-in zoom-in-95 duration-300"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div
+  className="relative w-full max-w-4xl mt-16 mb-8 mx-4 max-h-[calc(100vh-4rem)] overflow-y-auto animate-in fade-in zoom-in-95 duration-300"
+  onClick={(e) => e.stopPropagation()}
+>
 
         {/* Hero image */}
         <div className="relative h-[300px] md:h-[400px] rounded-t-xl overflow-hidden">

@@ -9,9 +9,10 @@ interface ContentRowProps {
   title: string
   items: DetailItem[]
   variant?: "experience" | "skill" | "education" | "award" | "paper"
+  onItemSelect?: (item: DetailItem) => void // Made optional to prevent page.tsx mismatches
 }
 
-export function ContentRow({ title, items, variant = "experience" }: ContentRowProps) {
+export function ContentRow({ title, items, variant = "experience", onItemSelect }: ContentRowProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [selectedItem, setSelectedItem] = useState<DetailItem | null>(null)
@@ -40,6 +41,10 @@ export function ContentRow({ title, items, variant = "experience" }: ContentRowP
 
   const handleCardClick = (item: DetailItem) => {
     setSelectedItem(item)
+    // Run optional callback parent mechanism if supplied by page.tsx
+    if (onItemSelect) {
+      onItemSelect(item)
+    }
   }
 
   return (
@@ -209,7 +214,7 @@ export function ContentRow({ title, items, variant = "experience" }: ContentRowP
         </div>
       </section>
 
-      {/* Detail Modal */}
+      {/* Detail Modal integration matching selected structural configurations */}
       <DetailModal 
         item={selectedItem} 
         onClose={() => setSelectedItem(null)} 

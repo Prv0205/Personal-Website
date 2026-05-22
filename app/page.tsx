@@ -860,7 +860,7 @@ export default function HomePage() {
           title="Career Journey" 
           items={experienceData} 
           variant="experience" 
-          onItemSelect={(item) => handleOpenModal(item, "experience")}
+          onItemSelect={(item) => handleOpenModal(item, "experience")}    
         />
         <SkillsGrid />
         <ContentRow 

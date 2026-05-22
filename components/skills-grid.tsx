@@ -1,10 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState , useEffect} from "react"
 import { Code, Brain, Cloud, Users, Sparkles, ArrowLeft, X } from "lucide-react"
 import Image from "next/image"
+import { Navbar } from "@/components/navbar"
 
-interface SkillCategory {
+
+ interface SkillCategory {
   id: string
   title: string
   icon: React.ReactNode
@@ -108,16 +110,48 @@ const skillCategories: SkillCategory[] = [
   },
 ]
 
-function SkillModal({ skill, onClose }: { skill: SkillCategory | null; onClose: () => void }) {
+interface SkillModalProps {
+  skill: SkillCategory | null
+  onClose: () => void
+}
+
+ export function SkillModal({ skill, onClose}:  SkillModalProps) {
+    useEffect(() => {
+  document.body.style.overflow = skill ? "hidden" : "unset"
+
+  return () => {
+    document.body.style.overflow = "unset"
+  }
+}, [skill])
+
+  useEffect(() => {
+    const handleGlobalClose = () => {
+      onClose()
+    }
+
+    window.addEventListener("close-detail-modal", handleGlobalClose)
+    return () => window.removeEventListener("close-detail-modal", handleGlobalClose)
+  }, [onClose])
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose()
+    }
+    window.addEventListener("keydown", handleEscape)
+    return () => window.removeEventListener("keydown", handleEscape)
+  }, [onClose])
+
   if (!skill) return null
+
 
   return (
     <div 
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-background"
-      onClick={onClose}
-    >
+  className="fixed inset-0 z-[100] flex items-start justify-center bg-background overflow-hidden"
+  // onClick={onClose}
+>
+  {/* <Navbar /> */}
       {/* Sticky navigation bar */}
-      <div className="fixed top-0 left-0 right-0 z-[110] flex items-center justify-between px-4 py-3 bg-background border-b border-border/50">
+      {/* <div className="fixed top-0 left-0 right-0 z-[110] flex items-center justify-between px-4 py-3 bg-background border-b border-border/50">
         <button
           onClick={onClose}
           className="flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
@@ -133,12 +167,12 @@ function SkillModal({ skill, onClose }: { skill: SkillCategory | null; onClose: 
         >
           <X className="w-5 h-5" />
         </button>
-      </div>
+      </div> */}
 
-      <div 
-        className="relative w-full max-w-4xl mt-16 mb-8 mx-4 animate-in fade-in zoom-in-95 duration-300"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div
+  className="relative w-full max-w-4xl mt-16 mb-8 mx-4 max-h-[calc(100vh-4rem)] overflow-y-auto animate-in fade-in zoom-in-95 duration-300"
+  onClick={(e) => e.stopPropagation()}
+> 
         {/* Hero image */}
         <div className="relative h-[250px] md:h-[350px] rounded-t-xl overflow-hidden">
           <Image

@@ -35,7 +35,7 @@ const skillCategories: SkillCategory[] = [
     description: "5+ years of hands-on experience building scalable web applications",
     details: {
       overview: "Expert-level proficiency in Python ecosystem with extensive experience in web development using Django and React. Built production systems serving thousands of users daily.",
-      tools: ["Python 3.x", "Django", "Django REST Framework", "React.js", "Flask", "ORM Queries", "FastAPI", "HTML5/CSS3", "JavaScript/TypeScript"],
+      tools: ["Python 3.x", "Django", "Django REST Framework", "React.js", "Flask", "ORM Queries",  "FastAPI", "HTML5/CSS3", "JavaScript/TypeScript"],
       experience: "5+ years of professional development experience across multiple companies and projects",
       projects: [
         "Django REST APIs supporting 25K+ daily users at TCS",
@@ -278,6 +278,18 @@ interface SkillModalProps {
 export function SkillsGrid() {
   const [selectedSkill, setSelectedSkill] = useState<SkillCategory | null>(null)
 
+  useEffect(() => {
+  const handlePopState = () => {
+    setSelectedSkill(null)
+  }
+
+  window.addEventListener("popstate", handlePopState)
+
+  return () => {
+    window.removeEventListener("popstate", handlePopState)
+  }
+}, [])
+
   return (
     <>
       <section className="py-12 px-4 md:px-12" id="skills">
@@ -293,7 +305,11 @@ export function SkillsGrid() {
           {skillCategories.map((category) => (
             <div
               key={category.id}
-              onClick={() => setSelectedSkill(category)}
+              // onClick={() => setSelectedSkill(category)}
+              onClick={() => {
+  setSelectedSkill(category)
+  window.history.pushState({ modal: true }, "")
+}}
               className="group relative overflow-hidden rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10 cursor-pointer"
             >
               {/* Thumbnail image */}

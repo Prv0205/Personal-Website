@@ -551,7 +551,7 @@ export function DetailModal({ item, onClose, variant = "experience" }: DetailMod
           {/* Action buttons */}
           <div className="flex flex-col sm:flex-row gap-3 mb-8">
             <a
-              href="/Praveen_Prasannan_Resume.pdf" 
+              href="/files/Praveen_Prasannan_Resume.pdf" 
               download="Praveen_Prasannan_Resume.pdf"
               className="flex items-center justify-center gap-2 bg-secondary text-secondary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-secondary/80 transition-colors border border-border/50 shadow-md text-sm md:text-base w-full sm:w-auto"
             >

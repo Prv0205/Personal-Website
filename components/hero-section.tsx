@@ -54,7 +54,7 @@ export function HeroSection() {
         {/* Metadata row */}
         <div className="flex items-center gap-3 md:gap-4 mb-6 flex-wrap">
           <span className="text-primary font-bold text-lg">98% Match</span>
-          <span className="text-muted-foreground">2024</span>
+          <span className="text-muted-foreground">2026</span>
           <span className="border border-muted-foreground/50 px-2 py-0.5 text-xs font-semibold rounded">4K</span>
           <span className="border border-muted-foreground/50 px-2 py-0.5 text-xs font-semibold rounded">HDR</span>
           <span className="bg-foreground/10 px-2 py-0.5 text-xs font-medium rounded">5+ Seasons</span>
@@ -100,7 +100,7 @@ export function HeroSection() {
       </div>
       
       {/* Bottom right controls like Netflix */}
-      <div className="absolute bottom-32 right-4 md:right-12 z-20 flex items-center gap-4">
+      {/* <div className="absolute bottom-32 right-4 md:right-12 z-20 flex items-center gap-4">
         <button 
           onClick={() => setMuted(!muted)}
           className="w-10 h-10 rounded-full border border-foreground/50 flex items-center justify-center hover:bg-foreground/10 transition-colors"
@@ -111,7 +111,7 @@ export function HeroSection() {
         <div className="bg-foreground/20 backdrop-blur-sm px-4 py-1.5 border-l-4 border-primary text-sm font-medium">
           18+
         </div>
-      </div>
+      </div> */}
       
       {/* Bottom gradient fade */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent z-15" />

@@ -1,7 +1,7 @@
 "use client"
 
-import { useState , useEffect} from "react"
-import { Code, Brain, Cloud, Users, Sparkles, ArrowLeft, X } from "lucide-react"
+import { useState , useEffect, useRef} from "react"
+import { Code, Brain, Cloud, Users, Sparkles, ArrowLeft, X, ChevronLeft, ChevronRight, Play, Plus } from "lucide-react"
 import Image from "next/image"
 import { Navbar } from "@/components/navbar"
 
@@ -275,25 +275,440 @@ interface SkillModalProps {
   )
 }
 
+// export function SkillsGrid() {
+//   const [selectedSkill, setSelectedSkill] = useState<SkillCategory | null>(null)
+
+//   useEffect(() => {
+//   const handlePopState = () => {
+//     setSelectedSkill(null)
+//   }
+
+//   window.addEventListener("popstate", handlePopState)
+
+//   return () => {
+//     window.removeEventListener("popstate", handlePopState)
+//   }
+// }, [])
+
+//   return (
+//     <>
+//       <section className="py-12 px-4 md:px-12" id="skills">
+//         <div className="flex items-center gap-4 mb-8">
+//           <div className="flex items-center gap-2">
+//             <Sparkles className="w-5 h-5 text-primary" />
+//             <h2 className="text-xl md:text-2xl font-bold tracking-tight">Top Skills</h2>
+//           </div>
+//           <div className="h-px flex-1 bg-gradient-to-r from-primary/50 to-transparent max-w-xs" />
+//         </div>
+        
+//         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+//           {skillCategories.map((category) => (
+//             <div
+//               key={category.id}
+//               // onClick={() => setSelectedSkill(category)}
+//               onClick={() => {
+//   setSelectedSkill(category)
+//   window.history.pushState({ modal: true }, "")
+// }}
+//               className="group relative overflow-hidden rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10 cursor-pointer"
+//             >
+//               {/* Thumbnail image */}
+//               <div className="relative h-32 overflow-hidden">
+//                 <Image
+//                   src={category.thumbnail}
+//                   alt={category.title}
+//                   fill
+//                   className="object-cover transition-transform duration-500 group-hover:scale-110"
+//                 />
+//                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+//                 <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-30 transition-opacity duration-500`} />
+                
+//                 {/* Proficiency badge */}
+//                 <div className={`absolute top-2 right-2 bg-gradient-to-r ${category.color} text-white text-xs font-bold px-2 py-1 rounded shadow-lg`}>
+//                   {category.proficiency}%
+//                 </div>
+//               </div>
+
+//               <div className="p-4">
+//                 {/* Top accent line */}
+//                 <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                
+//                 {/* Icon with title */}
+//                 <div className="flex items-center gap-3 mb-3">
+//                   <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${category.color} bg-opacity-20 flex items-center justify-center text-foreground group-hover:scale-110 transition-transform duration-300`}>
+//                     {category.icon}
+//                   </div>
+//                   <h3 className="font-bold text-base">{category.title}</h3>
+//                 </div>
+                
+//                 {/* Proficiency bar */}
+//                 <div className="h-1.5 bg-muted/50 rounded-full mb-4 overflow-hidden">
+//                   <div
+//                     className={`h-full bg-gradient-to-r ${category.color} rounded-full transition-all duration-1000 group-hover:shadow-lg`}
+//                     style={{ width: `${category.proficiency}%` }}
+//                   />
+//                 </div>
+                
+//                 {/* Skills list */}
+//                 <div className="flex flex-wrap gap-1.5">
+//                   {category.skills.slice(0, 4).map((skill) => (
+//                     <span
+//                       key={skill}
+//                       className="text-xs bg-secondary/80 text-secondary-foreground px-2 py-1 rounded-full"
+//                     >
+//                       {skill}
+//                     </span>
+//                   ))}
+//                   {category.skills.length > 4 && (
+//                     <span className="text-xs bg-primary/20 text-primary px-2 py-1 rounded-full">
+//                       +{category.skills.length - 4} more
+//                     </span>
+//                   )}
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </section>
+
+//       <SkillModal skill={selectedSkill} onClose={() => setSelectedSkill(null)} />
+//     </>
+//   )
+// }
+
+// export function SkillsGrid() {
+//   const [selectedSkill, setSelectedSkill] = useState<SkillCategory | null>(null)
+//   const [hoveredId, setHoveredId] = useState<string | null>(null)
+//   const scrollRef = useRef<HTMLDivElement>(null) // ⭐ Added ref to control horizontal movement track
+
+//   useEffect(() => {
+//     const handlePopState = () => {
+//       setSelectedSkill(null)
+//     }
+//     window.addEventListener("popstate", handlePopState)
+//     return () => window.removeEventListener("popstate", handlePopState)
+//   }, [])
+
+//   // ⭐ Added side slide handler block matching ContentRow mechanics
+//   const scroll = (direction: "left" | "right") => {
+//     if (scrollRef.current) {
+//       const scrollAmount = 400
+//       scrollRef.current.scrollBy({
+//         left: direction === "left" ? -scrollAmount : scrollAmount,
+//         behavior: "smooth",
+//       })
+//     }
+//   }
+
+//   const handleCardClick = (category: SkillCategory) => {
+//     setSelectedSkill(category)
+//     window.history.pushState({ modal: true }, "")
+//   }
+
+//   return (
+//     <>
+//       {/* ⭐ Added group/row identifier to support navigation button display conditions */}
+//       <section className="py-10 relative group/row" id="skills">
+//         <div className="flex items-center gap-4 mb-6 px-4 md:px-12">
+//           <div className="flex items-center gap-2">
+//             <Sparkles className="w-5 h-5 text-primary" />
+//             <h2 className="text-xl md:text-2xl font-bold tracking-tight">Top Skills</h2>
+//           </div>
+//           <div className="h-px flex-1 bg-gradient-to-r from-primary/50 to-transparent max-w-xs" />
+//         </div>
+        
+//         {/* ⭐ Added matching Left Section Navigation Arrow */}
+//         <button
+//           onClick={() => scroll("left")}
+//           className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-background/90 hover:bg-primary p-3 rounded-r-lg opacity-0 group-hover/row:opacity-100 transition-all duration-300 backdrop-blur-sm shadow-lg"
+//           aria-label="Scroll left"
+//         >
+//           <ChevronLeft className="w-6 h-6" />
+//         </button>
+        
+//         {/* ⭐ Added matching Right Section Navigation Arrow */}
+//         <button
+//           onClick={() => scroll("right")}
+//           className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-background/90 hover:bg-primary p-3 rounded-l-lg opacity-0 group-hover/row:opacity-100 transition-all duration-300 backdrop-blur-sm shadow-lg"
+//           aria-label="Scroll right"
+//         >
+//           <ChevronRight className="w-6 h-6" />
+//         </button>
+
+//         {/* ⭐ REPLACED 'grid grid-cols-1...' WITH 'flex overflow-x-auto hide-scrollbar' FOR THE HORIZONTAL ROW */}
+//         <div
+//           ref={scrollRef}
+//           className="flex gap-3 md:gap-4 overflow-x-auto hide-scrollbar px-4 md:px-12 pb-6"
+//         >
+//           {skillCategories.map((category) => (
+//             <div
+//               key={category.id}
+//               // ⭐ Added flex-shrink-0 and fixed item widths to preserve structure on mobile screens
+//               className="flex-shrink-0 w-[260px] md:w-[300px] group cursor-pointer"
+//               onMouseEnter={() => setHoveredId(category.id)}
+//               onMouseLeave={() => setHoveredId(null)}
+//               onClick={() => handleCardClick(category)}
+//             >
+//               {/* Card component shell remains exactly as you built it */}
+//               <div
+//                 className={`bg-card rounded-xl p-5 border border-border/50 shadow-md hover:border-primary/50 transition-all duration-300 h-full ${
+//                   hoveredId === category.id ? "scale-[1.02] shadow-lg shadow-primary/5 border-primary/30" : ""
+//                 }`}
+//               >
+//                 <div className="flex items-center gap-3 mb-3">
+//                   <div className={`p-2 rounded-lg bg-gradient-to-br ${category.color} text-white transition-transform duration-300`}>
+//                     {category.icon}
+//                   </div>
+//                   <h3 className="font-bold text-base">{category.title}</h3>
+//                 </div>
+                
+//                 <div className="h-1.5 bg-muted/50 rounded-full mb-4 overflow-hidden">
+//                   <div
+//                     className={`h-full bg-gradient-to-r ${category.color} rounded-full transition-all duration-1000 group-hover:shadow-lg`}
+//                     style={{ width: `${category.proficiency}%` }}
+//                   />
+//                 </div>
+                
+//                 <div className="flex flex-wrap gap-1.5">
+//                   {category.skills.slice(0, 4).map((skill) => (
+//                     <span
+//                       key={skill}
+//                       className="text-xs bg-secondary/80 text-secondary-foreground px-2 py-1 rounded-full"
+//                     >
+//                       {skill}
+//                     </span>
+//                   ))}
+//                   {category.skills.length > 4 && (
+//                     <span className="text-xs bg-primary/20 text-primary px-2 py-1 rounded-full">
+//                       +{category.skills.length - 4} more
+//                     </span>
+//                   )}
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </section>
+
+//       <SkillModal skill={selectedSkill} onClose={() => setSelectedSkill(null)} />
+//     </>
+//   )
+// }
+
+
+// export function SkillsGrid() {
+//   const [selectedSkill, setSelectedSkill] = useState<SkillCategory | null>(null)
+//   const [hoveredId, setHoveredId] = useState<string | null>(null)
+//   const scrollRef = useRef<HTMLDivElement>(null) // 🌟 Horizontal tracking scroll ref
+
+//   useEffect(() => {
+//     const handlePopState = () => {
+//       setSelectedSkill(null)
+//     }
+//     window.addEventListener("popstate", handlePopState)
+//     return () => window.removeEventListener("popstate", handlePopState)
+//   }, [])
+
+//   // 🌟 Horizontal scrolling navigation trigger logic
+//   const scroll = (direction: "left" | "right") => {
+//     if (scrollRef.current) {
+//       const scrollAmount = 400
+//       scrollRef.current.scrollBy({
+//         left: direction === "left" ? -scrollAmount : scrollAmount,
+//         behavior: "smooth",
+//       })
+//     }
+//   }
+
+//   const handleCardClick = (category: SkillCategory) => {
+//     setSelectedSkill(category)
+//     window.history.pushState({ modal: true }, "")
+//   }
+
+//   return (
+//     <>
+//       {/* 🌟 Added 'group/row' wrapper class name to handle arrow display visibility */}
+//       <section className="py-10 relative group/row" id="skills">
+//         <div className="flex items-center gap-4 mb-6 px-4 md:px-12">
+//           <div className="flex items-center gap-2">
+//             <Sparkles className="w-5 h-5 text-primary" />
+//             <h2 className="text-xl md:text-2xl font-bold tracking-tight">Top Skills</h2>
+//           </div>
+//           <div className="h-px flex-1 bg-gradient-to-r from-primary/50 to-transparent max-w-xs" />
+//         </div>
+        
+//         {/* 🌟 Left Scroll Arrow Control Trigger */}
+//         <button
+//           onClick={() => scroll("left")}
+//           className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-background/90 hover:bg-primary p-3 rounded-r-lg opacity-0 group-hover/row:opacity-100 transition-all duration-300 backdrop-blur-sm shadow-lg hidden md:block"
+//           aria-label="Scroll left"
+//         >
+//           <ChevronLeft className="w-6 h-6" />
+//         </button>
+        
+//         {/* 🌟 Right Scroll Arrow Control Trigger */}
+//         <button
+//           onClick={() => scroll("right")}
+//           className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-background/90 hover:bg-primary p-3 rounded-l-lg opacity-0 group-hover/row:opacity-100 transition-all duration-300 backdrop-blur-sm shadow-lg hidden md:block"
+//           aria-label="Scroll right"
+//         >
+//           <ChevronRight className="w-6 h-6" />
+//         </button>
+
+//         {/* 🌟 Changed into a horizontal flex-scroll layer row container */}
+//         <div
+//           ref={scrollRef}
+//           className="flex gap-3 md:gap-4 overflow-x-auto hide-scrollbar px-4 md:px-12 pb-6"
+//         >
+//           {skillCategories.map((category) => (
+//             <div
+//               key={category.id}
+//               className="flex-shrink-0 w-[260px] md:w-[300px] group cursor-pointer"
+//               onMouseEnter={() => setHoveredId(category.id)}
+//               onMouseLeave={() => setHoveredId(null)}
+//               onClick={() => handleCardClick(category)}
+//             >
+//               {/* 🌟 Main Card - Expands smoothly (scale-110) on hover */}
+//               <div 
+//                 className={`bg-card rounded-xl p-5 border border-border/50 shadow-md transition-all duration-500 relative overflow-hidden ${
+//                   hoveredId === category.id 
+//                     ? "scale-110 z-30 shadow-2xl shadow-primary/20 border-primary/30" 
+//                     : hoveredId && hoveredId !== category.id 
+//                       ? "scale-95 opacity-60" 
+//                       : ""
+//                 }`}
+//               >
+//                 {/* Decorative colored glow backdrop profile matching card color schemes */}
+//                 <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${category.color} opacity-5 rounded-full blur-xl group-hover:opacity-20 transition-opacity duration-500`} />
+                
+//                 <div className="flex items-center gap-3 mb-3 relative z-10">
+//                   <div className={`p-2 rounded-lg bg-gradient-to-br ${category.color} text-white transition-transform duration-300 group-hover:scale-110`}>
+//                     {category.icon}
+//                   </div>
+//                   <h3 className="font-bold text-base">{category.title}</h3>
+//                 </div>
+                
+//                 <div className="h-1.5 bg-muted/50 rounded-full mb-4 overflow-hidden relative z-10">
+//                   <div
+//                     className={`h-full bg-gradient-to-r ${category.color} rounded-full transition-all duration-1000`}
+//                     style={{ width: `${category.proficiency}%` }}
+//                   />
+//                 </div>
+                
+//                 <div className="flex flex-wrap gap-1.5 relative z-10">
+//                   {category.skills.slice(0, 3).map((skill) => (
+//                     <span
+//                       key={skill}
+//                       className="text-xs bg-secondary/80 text-secondary-foreground px-2 py-1 rounded-full"
+//                     >
+//                       {skill}
+//                     </span>
+//                   ))}
+//                   {category.skills.length > 3 && (
+//                     <span className="text-xs bg-primary/20 text-primary px-2 py-1 rounded-full font-medium">
+//                       +{category.skills.length - 3}
+//                     </span>
+//                   )}
+//                 </div>
+//               </div>
+              
+//               {/* 🌟 NEW HOVER DETAILS DROP BOX (Matches layout of detail fields from ContentRow cards) */}
+//               <div 
+//                 className={`transition-all duration-300 overflow-hidden relative z-20 ${
+//                   hoveredId === category.id ? "max-h-64 opacity-100 mt-2" : "max-h-0 opacity-0"
+//                 }`}
+//               >
+//                 <div className="bg-card/95 backdrop-blur-sm rounded-xl p-4 border border-border/50 shadow-xl">
+//                   {/* Interactive Button Ribbon Controls */}
+//                   <div className="flex items-center gap-2 mb-3">
+//                     <button 
+//                       className="w-8 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-primary/90 transition-colors shadow-md"
+//                       onClick={(e) => {
+//                         e.stopPropagation()
+//                         handleCardClick(category)
+//                       }}
+//                     >
+//                       <Play className="w-3.5 h-3.5 text-primary-foreground fill-current ml-0.5" />
+//                     </button>
+//                     <button 
+//                       className="w-8 h-8 rounded-full border border-muted-foreground/50 flex items-center justify-center hover:border-foreground hover:bg-foreground/5 transition-all"
+//                       onClick={(e) => {
+//                         e.stopPropagation()
+//                         handleCardClick(category)
+//                       }}
+//                     >
+//                       <Plus className="w-3.5 h-3.5" />
+//                     </button>
+//                     <span className="ml-auto text-[11px] font-bold tracking-wider text-muted-foreground uppercase">
+//                       Proficiency: {category.proficiency}%
+//                     </span>
+//                   </div>
+                  
+//                   {/* Detailed Description Field text */}
+//                   <p className="text-xs text-muted-foreground line-clamp-2 mb-3 leading-relaxed">
+//                     {category.description}
+//                   </p>
+                  
+//                   {/* Detailed Secondary Technology Tags Layout strip mapping */}
+//                   <div className="flex flex-wrap gap-1">
+//                     {category.details.tools.slice(0, 3).map((tool) => (
+//                       <span key={tool} className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full border border-primary/10 font-medium">
+//                         {tool}
+//                       </span>
+//                     ))}
+//                     {category.details.tools.length > 3 && (
+//                       <span className="text-[10px] bg-muted text-muted-foreground px-2 py-0.5 rounded-full font-semibold">
+//                         +{category.details.tools.length - 3} More
+//                       </span>
+//                     )}
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </section>
+
+//       <SkillModal skill={selectedSkill} onClose={() => setSelectedSkill(null)} />
+//     </>
+//   )
+// }
+
+
 export function SkillsGrid() {
   const [selectedSkill, setSelectedSkill] = useState<SkillCategory | null>(null)
-
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const scrollRef = useRef<HTMLDivElement>(null) 
+  
   useEffect(() => {
-  const handlePopState = () => {
-    setSelectedSkill(null)
+    const handlePopState = () => {
+      setSelectedSkill(null)
+    }
+    window.addEventListener("popstate", handlePopState)
+    return () => window.removeEventListener("popstate", handlePopState)
+  }, [])
+
+  // ⭐ Added the smooth row stepping function
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = 400
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      })
+    }
   }
 
-  window.addEventListener("popstate", handlePopState)
-
-  return () => {
-    window.removeEventListener("popstate", handlePopState)
+  const handleCardClick = (category: SkillCategory) => {
+    setSelectedSkill(category)
+    window.history.pushState({ modal: true }, "")
   }
-}, [])
 
   return (
     <>
-      <section className="py-12 px-4 md:px-12" id="skills">
-        <div className="flex items-center gap-4 mb-8">
+      {/* ⭐ Added group/row identifier to manage arrow visibility actions */}
+      <section className="py-10 relative group/row" id="skills">
+        <div className="flex items-center gap-4 mb-6 px-4 md:px-12">
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-primary" />
             <h2 className="text-xl md:text-2xl font-bold tracking-tight">Top Skills</h2>
@@ -301,71 +716,120 @@ export function SkillsGrid() {
           <div className="h-px flex-1 bg-gradient-to-r from-primary/50 to-transparent max-w-xs" />
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* ⭐ Added Left Navigation Arrow Trigger */}
+        <button
+          onClick={() => scroll("left")}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-background/90 hover:bg-primary p-3 rounded-r-lg opacity-0 group-hover/row:opacity-100 transition-all duration-300 backdrop-blur-sm shadow-lg hidden md:block"
+          aria-label="Scroll left"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        
+        {/* ⭐ Added Right Navigation Arrow Trigger */}
+        <button
+          onClick={() => scroll("right")}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-background/90 hover:bg-primary p-3 rounded-l-lg opacity-0 group-hover/row:opacity-100 transition-all duration-300 backdrop-blur-sm shadow-lg hidden md:block"
+          aria-label="Scroll right"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+
+        {/* ⭐ REPLACED "grid grid-cols-1..." WITH Horizontal Slider Layer */}
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto hide-scrollbar px-4 md:px-12 pb-6"
+        >
           {skillCategories.map((category) => (
             <div
               key={category.id}
-              // onClick={() => setSelectedSkill(category)}
-              onClick={() => {
-  setSelectedSkill(category)
-  window.history.pushState({ modal: true }, "")
-}}
-              className="group relative overflow-hidden rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10 cursor-pointer"
+              // ⭐ Swapped grid item behavior for fixed sizing card strips
+              className="flex-shrink-0 w-[280px] md:w-[320px] group cursor-pointer"
+              onMouseEnter={() => setHoveredId(category.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              onClick={() => handleCardClick(category)}
             >
-              {/* Thumbnail image */}
-              <div className="relative h-32 overflow-hidden">
-                <Image
-                  src={category.thumbnail}
-                  alt={category.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
-                <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-30 transition-opacity duration-500`} />
-                
-                {/* Proficiency badge */}
-                <div className={`absolute top-2 right-2 bg-gradient-to-r ${category.color} text-white text-xs font-bold px-2 py-1 rounded shadow-lg`}>
-                  {category.proficiency}%
+              {/* ⭐ Main Card Element Box (Matches your image layout completely) */}
+              <div
+                className={`relative overflow-hidden rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-500 h-[240px] md:h-[260px] flex flex-col justify-between ${
+                  hoveredId === category.id ? "scale-[1.05] z-10 shadow-xl shadow-primary/10 border-primary/30" : ""
+                }`}
+              >
+                {/* Thumbnail Layer Area with floating proficiency percentage */}
+                <div className="relative h-32 w-full overflow-hidden flex-shrink-0">
+                  <Image
+                    src={category.thumbnail}
+                    alt={category.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
+                  
+                  <div className={`absolute top-3 right-3 bg-gradient-to-r ${category.color} text-white text-xs font-bold px-2 py-1 rounded shadow-lg`}>
+                    {category.proficiency}%
+                  </div>
+                </div>
+
+                {/* Info Text / Progress Bar Frame Content */}
+                <div className="p-4 flex-1 flex flex-col justify-between relative">
+                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                  
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${category.color} flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300`}>
+                      {category.icon}
+                    </div>
+                    <h3 className="font-bold text-sm md:text-base tracking-tight">{category.title}</h3>
+                  </div>
+                  
+                  <div className="h-1.5 bg-muted/50 rounded-full mb-3 overflow-hidden w-full">
+                    <div
+                      className={`h-full bg-gradient-to-r ${category.color} rounded-full transition-all duration-1000`}
+                      style={{ width: `${category.proficiency}%` }}
+                    />
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-1.5 line-clamp-2 max-h-[52px] overflow-hidden">
+                    {category.skills.slice(0, 3).map((skill) => (
+                      <span
+                        key={skill}
+                        className="text-[11px] bg-secondary/80 text-secondary-foreground px-2 py-0.5 rounded-full whitespace-nowrap"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                    {category.skills.length > 3 && (
+                      <span className="text-[11px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-bold whitespace-nowrap">
+                        +{category.skills.length - 3}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              {/* ⭐ NEW Hover drop down strip matching layout specs of detail-modal.tsx metadata fields */}
+              <div 
+                className={`transition-all duration-300 overflow-hidden ${
+                  hoveredId === category.id ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"
+                }`}
+              >
+                <div className="bg-card/95 backdrop-blur-sm rounded-xl p-3 border border-border/50 shadow-xl">
+                  <div className="flex items-center gap-2 mb-2">
+                    <button className="w-7 h-7 rounded-full bg-primary flex items-center justify-center shadow-sm">
+                      <Play className="w-3 h-3 text-primary-foreground fill-current ml-0.5" />
+                    </button>
+                    <button className="w-7 h-7 rounded-full border border-muted-foreground/50 flex items-center justify-center">
+                      <Plus className="w-3 h-3" />
+                    </button>
+                    <span className="ml-auto text-[10px] text-muted-foreground font-medium">
+                      Overview Data
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">
+                    {category.description}
+                  </p>
                 </div>
               </div>
 
-              <div className="p-4">
-                {/* Top accent line */}
-                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                
-                {/* Icon with title */}
-                <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${category.color} bg-opacity-20 flex items-center justify-center text-foreground group-hover:scale-110 transition-transform duration-300`}>
-                    {category.icon}
-                  </div>
-                  <h3 className="font-bold text-base">{category.title}</h3>
-                </div>
-                
-                {/* Proficiency bar */}
-                <div className="h-1.5 bg-muted/50 rounded-full mb-4 overflow-hidden">
-                  <div
-                    className={`h-full bg-gradient-to-r ${category.color} rounded-full transition-all duration-1000 group-hover:shadow-lg`}
-                    style={{ width: `${category.proficiency}%` }}
-                  />
-                </div>
-                
-                {/* Skills list */}
-                <div className="flex flex-wrap gap-1.5">
-                  {category.skills.slice(0, 4).map((skill) => (
-                    <span
-                      key={skill}
-                      className="text-xs bg-secondary/80 text-secondary-foreground px-2 py-1 rounded-full"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                  {category.skills.length > 4 && (
-                    <span className="text-xs bg-primary/20 text-primary px-2 py-1 rounded-full">
-                      +{category.skills.length - 4} more
-                    </span>
-                  )}
-                </div>
-              </div>
             </div>
           ))}
         </div>
